@@ -1,0 +1,32 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "Require-a-tag-on-resources", 
+    "properties": {
+        "mode": "Indexed",
+        "displayName": "Require a tag on resources",
+        "description": "Ensures all indexed resources have tags and deny deployment if they do not."
+    },
+    "parameters": {
+        "tagName": {
+            "type": "String",
+            "metadata": {
+                "description": "Name of the tag, such as environment "
+            }
+        },
+        "tagValue": {
+            "type": "String",
+            "metadata": {
+                "description": "Value of the tag, such as dev"
+            }
+        }
+    },
+    "policyRule": {
+        "if": {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+        },
+        "then": {
+            "effect": "deny"
+        }
+    }
+}
