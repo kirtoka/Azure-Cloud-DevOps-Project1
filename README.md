@@ -2,7 +2,6 @@
 
 This is a project for the UDACITY Nanodegree "Cloud DevOps using Microsoft Azure"
 
-![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
 ![Terraform](https://img.shields.io/badge/Terraform-v1.09-green)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -23,12 +22,6 @@ This project will create infrastructure as code in the form of a Terraform templ
 
 
 ## ⛳ Installation instructions <a name=Chap3></a>
-
-### Plan
-1. Clone this repository
-2. Create environment variables
-3. Modify the packer file
-4. Modify terraform variable files if necessary
 
 ### Packer
 1. Log in to your Azure subscription and create a resource group for your image. The default in the terraform var.json is `udacity-image-rg`
