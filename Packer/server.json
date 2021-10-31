@@ -19,7 +19,7 @@
         "managed_image_resource_group_name": "udacity-image-rg",
         "managed_image_name": "udacity-server-image",
     
-        "location": "Canada Central",
+        "location": "East US",
         "vm_size": "Standard_B1ls"
 	}],
 	"provisioners": [

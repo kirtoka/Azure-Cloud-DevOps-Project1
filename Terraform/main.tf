@@ -5,12 +5,12 @@ provider "azurerm" {
 #get the image that was create by the packer script
 data "azurerm_image" "web" {
   name                = "udacity-server-image"
-  resource_group_name = var.packer_resource_group
+  resource_group_name = "udacity-image-rg"
 }
 
 #create the resource group specificed by the user
 resource "azurerm_resource_group" "main" {
-  name     = "${var.prefix}-rg"
+  name     = "${var.prefix}-rgp"
   location = var.location
 }
 
@@ -55,7 +55,7 @@ resource "azurerm_subnet_network_security_group_association" "main" {
 
 #create network interfaces for the VM's
 resource "azurerm_network_interface" "main" {
-  count               = var.num_of_vms
+  count               = var.num_vms
   name                = "${var.prefix}-${count.index}-nic"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
@@ -101,7 +101,7 @@ resource "azurerm_lb_backend_address_pool" "main" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "main" {
-  count                   = var.num_of_vms
+  count                   = var.num_vms
   network_interface_id    = azurerm_network_interface.main[count.index].id
   ip_configuration_name   = "internal"
   backend_address_pool_id = azurerm_lb_backend_address_pool.main.id
@@ -157,7 +157,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
 #create a virtual disk for each VM created.
 resource "azurerm_managed_disk" "main" {
-  count                           = var.num_of_vms
+  count                           = var.num_vms
   name                            = "data-disk-${count.index}"
   location                        = azurerm_resource_group.main.location
   resource_group_name             = azurerm_resource_group.main.name
@@ -167,7 +167,7 @@ resource "azurerm_managed_disk" "main" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "main" {
-  count              = var.num_of_vms
+  count              = var.num_vms
   managed_disk_id    = azurerm_managed_disk.main.*.id[count.index]
   virtual_machine_id = azurerm_linux_virtual_machine.main.*.id[count.index]
   lun                = 10 * count.index
