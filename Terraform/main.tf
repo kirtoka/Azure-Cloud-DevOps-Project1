@@ -33,10 +33,47 @@ resource "azurerm_network_security_group" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 
-  //Add a security rule for the VM's to recieve HTTP data on port 8080.
+//lowest priority one denying all inbound traffic from the internet
+    security_rule {
+    name                       = "default_all_deny"
+    priority                   = 1000
+    direction                  = "Inbound"
+    access                     = "Deny"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+//One rule allowing inbound traffick inside the same Virtual Network
+    security_rule {
+    name                       = "same_net_in_allow"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "10.0.0.0/22"
+    destination_address_prefix = "*"
+  }
+//One rule allowing outbound traffick inside the same Virtual Network
+    security_rule {
+    name                       = "same_net_out_allow"
+    priority                   = 120
+    direction                  = "Outbound"
+    access                     = "allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "10.0.0.0/22"
+  }
+
+//One rule allowing HTTP traffic to the VMs from the load balancer.
   security_rule {
     name                       = "HTTP"
-    priority                   = 100
+    priority                   = 200
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
