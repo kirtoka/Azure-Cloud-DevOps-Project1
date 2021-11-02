@@ -64,6 +64,10 @@ An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
 
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
 Terraform will perform the following actions:
 
   # azurerm_availability_set.main will be created
@@ -353,7 +357,61 @@ Terraform will perform the following actions:
               + destination_port_ranges                    = []
               + direction                                  = "Inbound"
               + name                                       = "HTTP"
-              + priority                                   = 100
+              + priority                                   = 200
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+          + {
+              + access                                     = "Deny"
+              + description                                = ""
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "*"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "default_all_deny"
+              + priority                                   = 1000
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+          + {
+              + access                                     = "allow"
+              + description                                = ""
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "*"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "same_net_in_allow"
+              + priority                                   = 110
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "10.0.0.0/22"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+          + {
+              + access                                     = "allow"
+              + description                                = ""
+              + destination_address_prefix                 = "10.0.0.0/22"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "*"
+              + destination_port_ranges                    = []
+              + direction                                  = "Outbound"
+              + name                                       = "same_net_out_allow"
+              + priority                                   = 120
               + protocol                                   = "Tcp"
               + source_address_prefix                      = "*"
               + source_address_prefixes                    = []
